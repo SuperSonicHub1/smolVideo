@@ -43,6 +43,7 @@ def run():
 		try:
 			info = ffmpeg.probe(filename)
 		except ffmpeg.Error as e:
+			remove(filename)
 			return f"""Error:
 		<pre>{e.stderr.decode('utf-8')}</pre>""", 500
 
@@ -72,6 +73,7 @@ def run():
 				.run_async(pipe_stdout=True)
 			)
 		except ffmpeg.Error as e:
+			remove(filename)
 			return f"Error: <pre>{e.stderr.decode('utf-8')}</pre>", 500
 		else:
 			def generate():
